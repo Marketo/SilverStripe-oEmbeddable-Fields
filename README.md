@@ -1,4 +1,10 @@
-# SilverStripe-oEmbeddable-Fields
+# SilverStripe oEmbeddable Fields
+
+## What is this?
+
+This module allows you to quickly collect Slideshare, Mixcloud, YouTube, Vidyard, and Brainshark URLs on any DataObject or Page type.  Upon "set"ting any of these fields, the extension will immediately validate the URL and strip the field down to its unique identifier, storing only the identifier to the database.  Getter methods then allow the template to build the appropriate embed codes.
+
+## Getting started
 
 There are three steps to start using this module:
 
