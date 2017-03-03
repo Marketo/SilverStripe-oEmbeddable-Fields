@@ -1,0 +1,25 @@
+{
+    "name": "marketo/silverstripe-oembeddable-fields",
+    "description": "SilverStripe oEmbeddable Fields",
+    "type": "silverstripe-module",
+    "keywords": ["silverstripe", "members", "default"],
+    "require": {
+        "silverstripe/framework": "3.*",
+        "composer/installers": "*"
+    },
+    "support": {
+        "issues": "https://github.com/Marketo/SilverStripe-oEmbeddable-Fields/issues"
+    },
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Nathan J. Brauer",
+            "email": "nathan@marketera.com"
+        },
+        {
+            "name": "Tyler Kidd",
+            "email": "twksk8@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
