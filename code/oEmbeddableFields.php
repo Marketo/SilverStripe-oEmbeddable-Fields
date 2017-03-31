@@ -344,7 +344,7 @@ class oEmbeddableFields extends DataExtension
     function getVimeoEmbed()
     {
         if ($this->owner->VimeoID) {
-            return '<iframe src="https://player.vimeo.com/video/' . $this->owner->VimeoID . ' frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
+            return '<iframe src="https://player.vimeo.com/video/' . $this->owner->VimeoID . '" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
         }
     }
 
