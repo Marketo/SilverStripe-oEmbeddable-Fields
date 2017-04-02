@@ -126,7 +126,7 @@ class oEmbeddableFields extends DataExtension
 				<a href="http://wistia.com/" target="_blank" style="position:absolute;top:1.5em;white-space:nowrap;">Upload Video</a>
 			</span>
 			Wistia ID')->setRightTitle(
-                'Include the <strong>URL</strong> for the Wistia video'
+                'Include the <strong>ID</strong> for the Wistia video'
             );
         } else {
             $Media['WistiaIdentifier'] = HiddenField::create('WistiaIdentifier', '');
