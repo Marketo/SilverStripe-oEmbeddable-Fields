@@ -56,20 +56,20 @@ class oEmbeddableFields extends DataExtension
         $Media = [];
 
         if ($this->TypeEnabled('Image')) {
-            $Media['Image'] = UploadField::create('Image',
-                'Image');
-            $Media['Image']->setRightTitle(
-                'You must first save this Media before adding the image');
+            $Media['Image'] = UploadField::create('Image', 'Image');
+            $Media['Image']->setRightTitle('You must first save this Media before adding the image');
         } else {
             $Media['Image'] = HiddenField::create('Image', '');
         }
 
         if ($this->TypeEnabled('Slideshare')) {
-            $Media['SlideshareID'] = TextField::create('SlideshareID',
+            $Media['SlideshareID'] = TextField::create(
+                'SlideshareID',
                 '<span style="position:relative;">
-	                <a href="http://Slideshare.com/upload" target="_blank" style="position:absolute;top:1.5em;white-space:nowrap;">Upload Slides</a>
-	            </span>
-	            Slideshare URL', $this->owner->SlideshareID ?: null);
+                    <a href="http://Slideshare.com/upload" target="_blank" style="position:absolute;top:1.5em;white-space:nowrap;">Upload Slides</a>
+                </span> Slideshare URL',
+                $this->owner->SlideshareID ?: null
+            );
             $Media['SlideshareID']->setRightTitle(
                 'Include the Slideshare <strong>URL</strong> for slideshows.<br/>' .
                 '<strong>After saving:</strong> If valid, this will automatically convert to the Slideshare ID. If not, it will change to "0".'
@@ -80,7 +80,8 @@ class oEmbeddableFields extends DataExtension
         }
 
         if ($this->TypeEnabled('YouTube')) {
-            $Media['YouTubeID'] = TextField::create('YouTubeID',
+            $Media['YouTubeID'] = TextField::create(
+                'YouTubeID',
                 '<span style="position:relative;">
 	                <a href="http://YouTube.com/upload" target="_blank" style="position:absolute;top:1.5em;white-space:nowrap;">Upload Video</a>
 	            </span>
@@ -105,8 +106,7 @@ class oEmbeddableFields extends DataExtension
         }
 
         if ($this->TypeEnabled('Brainshark')) {
-            $Media['BrainsharkID'] = TextField::create('BrainsharkID',
-                'Brainshark Presentation URL');
+            $Media['BrainsharkID'] = TextField::create('BrainsharkID','Brainshark Presentation URL');
             $Media['BrainsharkID']->setRightTitle(
                 'Include the <strong>URL</strong> for the Brainshark presentation<br/>' .
                 '<strong>After saving:</strong> If likely valid, this will automatically convert to the Brainshark ID. If not, it will disappear.'
@@ -116,14 +116,14 @@ class oEmbeddableFields extends DataExtension
         }
 
         if ($this->TypeEnabled('Mixcloud')) {
-            $Media['MixcloudURL'] = TextField::create('MixcloudURL',
+            $Media['MixcloudURL'] = TextField::create(
+                'MixcloudURL',
                 '<span style="position:relative;">
-	                <a href="http://Mixcloud.com/upload" target="_blank" style="position:absolute;top:1.5em;white-space:nowrap;">Upload Audio</a>
-	            </span>
-	            Mixcloud URL');
-            $Media['MixcloudURL']->setRightTitle(
-                'Include the <strong>URL</strong> for a feed OR individual post.'
+                       <a href="http://Mixcloud.com/upload" target="_blank" style="position:absolute;top:1.5em;white-space:nowrap;">Upload Audio</a>
+                </span>
+	            Mixcloud URL'
             );
+            $Media['MixcloudURL']->setRightTitle('Include the <strong>URL</strong> for a feed OR individual post.');
         } else {
             $Media['MixcloudURL'] = HiddenField::create('MixcloudURL', '');
         }
@@ -139,13 +139,13 @@ class oEmbeddableFields extends DataExtension
         }
 
         if ($this->TypeEnabled('Wistia')) {
-            $Media['WistiaIdentifier'] = TextField::create('WistiaIdentifier',
+            $Media['WistiaIdentifier'] = TextField::create(
+                'WistiaIdentifier',
                 '<span style="position:relative;">
 				<a href="http://wistia.com/" target="_blank" style="position:absolute;top:1.5em;white-space:nowrap;">Upload Video</a>
-			</span>
-			Wistia ID')->setRightTitle(
-                'Include the <strong>ID</strong> for the Wistia video'
+			</span> Wistia ID'
             );
+            $Media['WistiaIdentifier']->setRightTitle('Include the <strong>ID</strong> for the Wistia video');
         } else {
             $Media['WistiaIdentifier'] = HiddenField::create('WistiaIdentifier', '');
         }
@@ -207,7 +207,6 @@ class oEmbeddableFields extends DataExtension
         if ($id) $this->owner->setField('VimeoID', $id->video_id);
 
     }
-
 
 
     /**
@@ -408,18 +407,18 @@ class oEmbeddableFields extends DataExtension
     public function WistiaIdentifier($ID)
     {
 
-        $link = 'http://home.wistia.com/medias/'.rawurlencode($ID);
-        ///https?:\/\/(.+)?(wistia.com|wi.st)\/(medias|embed)\/.*/
+        $link = 'http://home.wistia.com/medias/' . rawurlencode($ID);
 
         $oembed_regex = '#https?://(.+)?(wistia\.com|wistia\.net|wi\.st)/(medias|embed)/(?:[\+~%\/\.\w\-]*)#';
-        if ( preg_match( $oembed_regex, $link, $matches ) ) {
-            $json = @file_get_contents('http://fast.wistia.com/oembed?url='.$link);
+        if (preg_match($oembed_regex, $link, $matches)) {
+            $json = @file_get_contents('http://fast.wistia.com/oembed?url=' . $link);
 
             if (!$json)
                 return null;
 
-            $validate_json = json_decode($json,true);
+            $validate_json = json_decode($json, true);
             if (!$validate_json || !isset($validate_json['thumbnail_url']) || !$validate_json['thumbnail_url']) return false;
+
             return $json;
         }
     }
