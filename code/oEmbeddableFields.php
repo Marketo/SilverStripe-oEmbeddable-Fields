@@ -23,6 +23,15 @@ class oEmbeddableFields extends DataExtension
         'WistiaIdentifier' => 'Varchar(50)',
     ];
 
+    /**
+     * List of one-to-one relationships. {@link DataObject::$has_one}
+     *
+     * @var array
+     */
+    private static $has_one = [
+        'Image' => 'Image'
+    ];
+
     private static $indexes = [];
 
 
@@ -45,6 +54,15 @@ class oEmbeddableFields extends DataExtension
     {
 
         $Media = [];
+
+        if ($this->TypeEnabled('Image')) {
+            $Media['Image'] = UploadField::create('Image',
+                'Image');
+            $Media['Image']->setRightTitle(
+                'You must first save this Media before adding the image');
+        } else {
+            $Media['Image'] = HiddenField::create('Image', '');
+        }
 
         if ($this->TypeEnabled('Slideshare')) {
             $Media['SlideshareID'] = TextField::create('SlideshareID',
