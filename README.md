@@ -34,4 +34,7 @@ Page:
     - YouTube
     - Vidyard
     - BrainsharkID
+    - Wistia
+    - Vimeo
+    - Image
 ```
