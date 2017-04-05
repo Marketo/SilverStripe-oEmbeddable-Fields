@@ -431,7 +431,7 @@ class oEmbeddableFields extends DataExtension
             return null;
         }
 
-        //validate the ID against YouTube's oEmbed
+        //validate the ID against Vimeo's oEmbed
         $json = @file_get_contents('http://vimeo.com/api/oembed.json?url=https://vimeo.com/' . $ID);
 
         if (!$json)
