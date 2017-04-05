@@ -10,8 +10,14 @@
 class oEmbeddableFields extends DataExtension
 {
 
+    /**
+     * @var int
+     */
     public $count = 0;
 
+    /**
+     * @var array
+     */
     private static $db = [
         'SlideshareID'     => 'Int',
         'MixcloudURL'      => 'VarChar(511)',
@@ -32,9 +38,16 @@ class oEmbeddableFields extends DataExtension
         'Image' => 'Image'
     ];
 
+    /**
+     * @var array
+     */
     private static $indexes = [];
 
 
+    /**
+     * @param bool $type
+     * @return bool
+     */
     private function TypeEnabled($type = false)
     {
 
@@ -106,7 +119,7 @@ class oEmbeddableFields extends DataExtension
         }
 
         if ($this->TypeEnabled('Brainshark')) {
-            $Media['BrainsharkID'] = TextField::create('BrainsharkID','Brainshark Presentation URL');
+            $Media['BrainsharkID'] = TextField::create('BrainsharkID', 'Brainshark Presentation URL');
             $Media['BrainsharkID']->setRightTitle(
                 'Include the <strong>URL</strong> for the Brainshark presentation<br/>' .
                 '<strong>After saving:</strong> If likely valid, this will automatically convert to the Brainshark ID. If not, it will disappear.'
@@ -203,9 +216,7 @@ class oEmbeddableFields extends DataExtension
      */
     function setVimeoID($ID)
     {
-        $id = json_decode(oEmbeddableFields::VimeoID(trim($ID)));
-        if ($id) $this->owner->setField('VimeoID', $id->video_id);
-
+        $this->owner->setField('VimeoID', json_decode(oEmbeddableFields::VimeoID(trim($ID))));
     }
 
 
@@ -293,6 +304,9 @@ class oEmbeddableFields extends DataExtension
     }
 
 
+    /**
+     * @return string
+     */
     function getYoutubeSource()
     {
         if (!$this->owner->YouTubeID) return '';
@@ -351,6 +365,9 @@ class oEmbeddableFields extends DataExtension
         return "<iframe id='Brainshark-{$this->owner->BrainsharkID}' src='{$this->owner->BrainsharkSource}' frameborder='0' scrolling='no'></iframe>";
     }
 
+    /**
+     * @return string
+     */
     function getYouTubeImage()
     {
         if ($this->owner->YoutubeID) {
@@ -358,6 +375,9 @@ class oEmbeddableFields extends DataExtension
         }
     }
 
+    /**
+     * @return string
+     */
     function getVimeoEmbed()
     {
         if ($this->owner->VimeoID) {
@@ -365,6 +385,9 @@ class oEmbeddableFields extends DataExtension
         }
     }
 
+    /**
+     * @return mixed
+     */
     function getWistiaEmbed()
     {
         if ($this->owner->WistiaIdentifier) {
@@ -386,10 +409,30 @@ class oEmbeddableFields extends DataExtension
         return $json['slideshow_id'];
     }
 
+
+    /**
+     * @param $URL
+     * @return bool|mixed|null
+     */
     public function VimeoID($URL)
     {
 
-        $json = @file_get_contents('http://vimeo.com/api/oembed.json?url=' . rawurlencode($URL));
+        //make sure they remembered to include the http, if it's a URL
+        $http = (strpos($URL, 'http://') === 0 || strpos($URL, 'https://') === 0) ? null : 'http://';
+        if ($parse = parse_url($http . $URL)) {
+            //If the path doesn't exist, then it's likely that it's already the ID
+            if (!isset($parse['path']) && count($parse) === 2) {
+                $ID = $parse['host'];
+            } else {
+                //Handle vimeo video page URLs
+                $ID = str_replace('/', '', $parse['path']);
+            }
+        } else {
+            return null;
+        }
+
+        //validate the ID against YouTube's oEmbed
+        $json = @file_get_contents('http://vimeo.com/api/oembed.json?url=https://vimeo.com/' . $ID);
 
         if (!$json)
             return null;
@@ -397,13 +440,16 @@ class oEmbeddableFields extends DataExtension
         if (trim($json) === '404 Not Found')
             return null;
 
-        $validate_json = json_decode($json, true);
-        if (!$validate_json || !isset($validate_json['video_id']) || !$validate_json['video_id']) return false;
+        $json = json_decode($json, true);
+        if (!$json || !isset($json['video_id']) || !$json['video_id']) return false;
 
-        return $json;
-
+        return $ID;
     }
 
+    /**
+     * @param $ID
+     * @return bool|null|string
+     */
     public function WistiaIdentifier($ID)
     {
 
@@ -424,7 +470,11 @@ class oEmbeddableFields extends DataExtension
     }
 
 
-    public static function YouTubeID($URL)
+    /**
+     * @param $URL
+     * @return mixed|null
+     */
+    public function YouTubeID($URL)
     {
         //TODO: Enable playlist embeds?
 
@@ -473,6 +523,10 @@ class oEmbeddableFields extends DataExtension
         return $ID;
     }
 
+    /**
+     * @param $URL
+     * @return mixed|null|string
+     */
     public static function VidyardID($URL)
     {
 
@@ -519,6 +573,10 @@ class oEmbeddableFields extends DataExtension
         return $ID;
     }
 
+    /**
+     * @param $URL
+     * @return null
+     */
     public static function BrainsharkID($URL)
     {
         //make sure they remembered to include the http, if it's a URL
