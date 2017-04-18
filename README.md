@@ -34,6 +34,7 @@ Page:
     - YouTube
     - Vidyard
     - BrainsharkID
+    - SurveyMonkey
     - Wistia
     - Vimeo
     - Image
