@@ -169,18 +169,18 @@ class oEmbeddableFields extends DataExtension
             $Media['WistiaIdentifier'] = HiddenField::create('WistiaIdentifier', '');
         }
 
-        if ($TabName = $this->owner->config()->EmbeddedMediaTabName) {
+        if ($TabName = $this->owner->config()->oembed_tab_name) {
             $fields->addFieldsToTab($TabName, $Media);
-            if ($Title = $this->owner->config()->EmbeddedMediaTitle) {
+            if ($Title = $this->owner->config()->oembed_title) {
                 $fields->fieldByName($TabName)->setTitle($Title);
             }
         } else if ($this->owner instanceof SiteTree) {
-            $MediaFields = new ToggleCompositeField('MediaFields', $this->owner->config()->EmbeddedMediaTitle ?: 'Embedded Media', $Media);
+            $MediaFields = new ToggleCompositeField('MediaFields', $this->owner->config()->oembed_title ?: 'Embedded Media', $Media);
             $MediaFields->setStartClosed(true);
             $MediaFields->setHeadingLevel(2);
             $fields->insertBefore('Metadata', $MediaFields);
         } else {
-            $fields->addFieldsToTab('Root.oEmbeddableFields', $Media);
+            $fields->addFieldsToTab('Root.EmbeddedMedia', $Media);
         }
     }
 
