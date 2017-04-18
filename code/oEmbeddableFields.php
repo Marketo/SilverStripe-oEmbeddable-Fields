@@ -24,7 +24,6 @@ class oEmbeddableFields extends DataExtension
         'YouTubeID'        => 'VarChar(127)',
         'BrainsharkID'     => 'VarChar(127)',
         'VidyardID'        => 'VarChar(127)',
-        'VimeoURL'         => 'VarChar(255)',
         'VimeoID'          => 'VarChar(50)',
         'WistiaIdentifier' => 'Varchar(50)',
         'SurveyMonkeyID'   => 'VarChar(127)',
