@@ -256,6 +256,7 @@ class oEmbeddableFields extends DataExtension
 
     /**
      * TODO: Validate somehow :)
+     *
      * @param $ID string
      */
     function setSurveyMonkeyID($ID)
@@ -282,6 +283,7 @@ class oEmbeddableFields extends DataExtension
                 $this->owner->VidyardID,
                 $this->owner->BrainsharkID,
                 $this->owner->VimeoID,
+                $this->owner->WistiaIdentifier,
                 $this->owner->SurveyMonkeyID,
             ]
         ));
@@ -299,6 +301,7 @@ class oEmbeddableFields extends DataExtension
             'Vidyard'      => $this->owner->VidyardID,
             'Brainshark'   => $this->owner->BrainsharkID,
             'Vimeo'        => $this->owner->VimeoID,
+            'Wistia'       => $this->owner->WistiaIdentifier,
             'SurveyMonkey' => $this->owner->SurveyMonkeyID,
         ])));
     }
