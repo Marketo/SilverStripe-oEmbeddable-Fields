@@ -35,7 +35,7 @@ class oEmbeddableFields extends DataExtension
      * @var array
      */
     private static $has_one = [
-        'Image' => 'Image'
+        'Image' => 'Image',
     ];
 
     /**
@@ -46,12 +46,15 @@ class oEmbeddableFields extends DataExtension
 
     /**
      * @param bool $type
+     *
      * @return bool
      */
     private function TypeEnabled($type = false)
     {
 
-        if (!is_array($this->owner->config()->enabled_oembed_fields)) return true;
+        if (!is_array($this->owner->config()->enabled_oembed_fields)) {
+            return true;
+        }
 
         if (in_array($type, $this->owner->config()->enabled_oembed_fields)) {
             return true;
@@ -189,7 +192,9 @@ class oEmbeddableFields extends DataExtension
      */
     function setSlideshareID($ID)
     {
-        if (!is_numeric($ID)) $ID = oEmbeddableFields::SlideshareID(trim($ID));
+        if (!is_numeric($ID)) {
+            $ID = oEmbeddableFields::SlideshareID(trim($ID));
+        }
         $this->owner->setField('SlideshareID', $ID);
     }
 
@@ -247,7 +252,16 @@ class oEmbeddableFields extends DataExtension
      */
     function getEmbedCount()
     {
-        return count(array_filter([$this->owner->SlideshareID, $this->owner->MixcloudURL, $this->owner->YouTubeID, $this->owner->VidyardID, $this->owner->BrainsharkID, $this->owner->VimeoID]));
+        return count(array_filter(
+            [
+                $this->owner->SlideshareID,
+                $this->owner->MixcloudURL,
+                $this->owner->YouTubeID,
+                $this->owner->VidyardID,
+                $this->owner->BrainsharkID,
+                $this->owner->VimeoID,
+            ]
+        ));
     }
 
     /**
@@ -255,7 +269,9 @@ class oEmbeddableFields extends DataExtension
      */
     function getSlideshareSource()
     {
-        if (!$this->owner->SlideshareID) return '';
+        if (!$this->owner->SlideshareID) {
+            return '';
+        }
 
         return "//www.slideshare.net/slideshow/embed_code/" . $this->owner->SlideshareID;
     }
@@ -266,7 +282,9 @@ class oEmbeddableFields extends DataExtension
      */
     function getSlideshareEmbed()
     {
-        if (!$this->owner->SlideshareID) return '';
+        if (!$this->owner->SlideshareID) {
+            return '';
+        }
 
         return "<iframe id='Slideshare-{$this->owner->SlideshareID}' src='{$this->owner->SlideshareSource}' frameborder='0' marginwidth='0' marginheight='0' scrolling='no' style='border:1px solid #CCC;border-width:1px 1px 0;margin-bottom:5px' allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe>";
     }
@@ -287,7 +305,9 @@ class oEmbeddableFields extends DataExtension
      */
     function getMixcloudSource()
     {
-        if (!$this->owner->MixcloudURL) return '';
+        if (!$this->owner->MixcloudURL) {
+            return '';
+        }
         $EncodedURL = rawurlencode($this->owner->MixcloudURL);
 
         return "//www.mixcloud.com/widget/iframe/?feed=" . $EncodedURL . "&embed_type=widget_standard";
@@ -298,7 +318,9 @@ class oEmbeddableFields extends DataExtension
      */
     function getMixcloudEmbed()
     {
-        if (!$this->owner->MixcloudURL) return '';
+        if (!$this->owner->MixcloudURL) {
+            return '';
+        }
 
         return "<iframe id='Mixcloud-{$this->owner->MixcloudSlug}' src='{$this->owner->MixcloudSource}' frameborder='0'></iframe>";
     }
@@ -309,7 +331,9 @@ class oEmbeddableFields extends DataExtension
      */
     function getYoutubeSource()
     {
-        if (!$this->owner->YouTubeID) return '';
+        if (!$this->owner->YouTubeID) {
+            return '';
+        }
 
         return "https://www.youtube.com/embed/" . $this->owner->YouTubeID . "?rel=0";
     }
@@ -319,7 +343,9 @@ class oEmbeddableFields extends DataExtension
      */
     function getYouTubeEmbed()
     {
-        if (!$this->owner->YouTubeID) return '';
+        if (!$this->owner->YouTubeID) {
+            return '';
+        }
 
         return "<iframe id='YouTube-{$this->owner->YouTubeID}' src='{$this->owner->YouTubeSource}' frameborder='0' allowfullscreen></iframe>";
     }
@@ -329,7 +355,9 @@ class oEmbeddableFields extends DataExtension
      */
     function getVidyardSource()
     {
-        if (!$this->owner->VidyardID) return '';
+        if (!$this->owner->VidyardID) {
+            return '';
+        }
 
         return "//micro.marketo.com/play.vidyard.com/" . $this->owner->VidyardID . ".html?v=3.1.1&type=inline&preload=none";
     }
@@ -339,7 +367,9 @@ class oEmbeddableFields extends DataExtension
      */
     function getVidyardEmbed()
     {
-        if (!$this->owner->VidyardID) return '';
+        if (!$this->owner->VidyardID) {
+            return '';
+        }
 
         return "<iframe id='Vidyard-{$this->owner->VidyardID}' src='{$this->owner->VidyardSource}' frameborder='0' allowfullscreen='1'></iframe>";
     }
@@ -350,7 +380,9 @@ class oEmbeddableFields extends DataExtension
      */
     function getBrainsharkSource()
     {
-        if (!$this->owner->BrainsharkID) return '';
+        if (!$this->owner->BrainsharkID) {
+            return '';
+        }
 
         return "https://www.brainshark.com/marketing-cloud/vu?pi=" . $this->owner->BrainsharkID . "&dm=5&pause=1&nrs=1";
     }
@@ -360,7 +392,9 @@ class oEmbeddableFields extends DataExtension
      */
     function getBrainsharkEmbed()
     {
-        if (!$this->owner->BrainsharkID) return '';
+        if (!$this->owner->BrainsharkID) {
+            return '';
+        }
 
         return "<iframe id='Brainshark-{$this->owner->BrainsharkID}' src='{$this->owner->BrainsharkSource}' frameborder='0' scrolling='no'></iframe>";
     }
@@ -402,9 +436,13 @@ class oEmbeddableFields extends DataExtension
     public static function SlideshareID($URL)
     {
         $json = @file_get_contents('http://www.slideshare.net/api/oembed/2?format=json&url=' . rawurlencode($URL));
-        if (!$json) return '';
+        if (!$json) {
+            return '';
+        }
         $json = json_decode($json, true);
-        if (!$json || !isset($json['slideshow_id']) || !$json['slideshow_id']) return '';
+        if (!$json || !isset($json['slideshow_id']) || !$json['slideshow_id']) {
+            return '';
+        }
 
         return $json['slideshow_id'];
     }
@@ -412,6 +450,7 @@ class oEmbeddableFields extends DataExtension
 
     /**
      * @param $URL
+     *
      * @return bool|mixed|null
      */
     public function VimeoID($URL)
@@ -434,20 +473,25 @@ class oEmbeddableFields extends DataExtension
         //validate the ID against Vimeo's oEmbed
         $json = @file_get_contents('http://vimeo.com/api/oembed.json?url=https://vimeo.com/' . $ID);
 
-        if (!$json)
+        if (!$json) {
             return null;
+        }
 
-        if (trim($json) === '404 Not Found')
+        if (trim($json) === '404 Not Found') {
             return null;
+        }
 
         $json = json_decode($json, true);
-        if (!$json || !isset($json['video_id']) || !$json['video_id']) return false;
+        if (!$json || !isset($json['video_id']) || !$json['video_id']) {
+            return false;
+        }
 
         return $ID;
     }
 
     /**
      * @param $ID
+     *
      * @return bool|null|string
      */
     public function WistiaIdentifier($ID)
@@ -459,11 +503,14 @@ class oEmbeddableFields extends DataExtension
         if (preg_match($oembed_regex, $link, $matches)) {
             $json = @file_get_contents('http://fast.wistia.com/oembed?url=' . $link);
 
-            if (!$json)
+            if (!$json) {
                 return null;
+            }
 
             $validate_json = json_decode($json, true);
-            if (!$validate_json || !isset($validate_json['thumbnail_url']) || !$validate_json['thumbnail_url']) return false;
+            if (!$validate_json || !isset($validate_json['thumbnail_url']) || !$validate_json['thumbnail_url']) {
+                return false;
+            }
 
             return $json;
         }
@@ -472,6 +519,7 @@ class oEmbeddableFields extends DataExtension
 
     /**
      * @param $URL
+     *
      * @return mixed|null
      */
     public function YouTubeID($URL)
@@ -510,14 +558,18 @@ class oEmbeddableFields extends DataExtension
         //validate the ID against YouTube's oEmbed
         $json = @file_get_contents('https://www.youtube.com/oembed?format=json&url=http://youtu.be/' . $ID);
 
-        if (!$json)
+        if (!$json) {
             return null;
+        }
 
-        if (trim($json) === '404 Not Found')
+        if (trim($json) === '404 Not Found') {
             return null;
+        }
 
         $json = json_decode($json, true);
-        if (!$json || !isset($json['type']) || $json['type'] !== 'video') return null;
+        if (!$json || !isset($json['type']) || $json['type'] !== 'video') {
+            return null;
+        }
 
 
         return $ID;
@@ -525,6 +577,7 @@ class oEmbeddableFields extends DataExtension
 
     /**
      * @param $URL
+     *
      * @return mixed|null|string
      */
     public static function VidyardID($URL)
@@ -557,7 +610,7 @@ class oEmbeddableFields extends DataExtension
         $url = 'http://play.vidyard.com/' . $ID . '.html?v=3.1&disable_ctas=1';
 
         $handle = curl_init($url);
-        curl_setopt($handle, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
 
         /*$response = */
         curl_exec($handle);
@@ -575,6 +628,7 @@ class oEmbeddableFields extends DataExtension
 
     /**
      * @param $URL
+     *
      * @return null
      */
     public static function BrainsharkID($URL)
