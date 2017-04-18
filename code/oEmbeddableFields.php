@@ -27,6 +27,7 @@ class oEmbeddableFields extends DataExtension
         'VimeoURL'         => 'VarChar(255)',
         'VimeoID'          => 'VarChar(50)',
         'WistiaIdentifier' => 'Varchar(50)',
+        'SurveyMonkeyID'   => 'VarChar(127)',
     ];
 
     /**
@@ -169,6 +170,15 @@ class oEmbeddableFields extends DataExtension
             $Media['WistiaIdentifier'] = HiddenField::create('WistiaIdentifier', '');
         }
 
+        if ($this->TypeEnabled('SurveyMonkey')) {
+            $Media['SurveyMonkeyID'] = TextField::create('SurveyMonkeyID', 'SurveyMonkey ID');
+            $Media['SurveyMonkeyID']->setRightTitle(
+                'Include the <strong>ID ONLY</strong> for the SurveyMonkey page<br/>'
+            );
+        } else {
+            $Media['SurveyMonkeyID'] = HiddenField::create('SurveyMonkeyID', '');
+        }
+
         if ($TabName = $this->owner->config()->oembed_tab_name) {
             $fields->addFieldsToTab($TabName, $Media);
             if ($Title = $this->owner->config()->oembed_title) {
@@ -244,6 +254,15 @@ class oEmbeddableFields extends DataExtension
         $this->owner->setField('BrainsharkID', oEmbeddableFields::BrainsharkID(trim($ID)));
     }
 
+    /**
+     * TODO: Validate somehow :)
+     * @param $ID string
+     */
+    function setSurveyMonkeyID($ID)
+    {
+        $this->owner->setField('SurveyMonkeyID', trim($ID));
+    }
+
 
     /**
      * GETTERS
@@ -263,6 +282,7 @@ class oEmbeddableFields extends DataExtension
                 $this->owner->VidyardID,
                 $this->owner->BrainsharkID,
                 $this->owner->VimeoID,
+                $this->owner->SurveyMonkeyID,
             ]
         ));
     }
@@ -277,8 +297,9 @@ class oEmbeddableFields extends DataExtension
             'Mixcloud'     => $this->owner->MixcloudURL,
             'YouTube'      => $this->owner->YouTubeID,
             'Vidyard'      => $this->owner->VidyardID,
-            'SurveyMonkey' => $this->owner->SurveyMonkeyID,
             'Brainshark'   => $this->owner->BrainsharkID,
+            'Vimeo'        => $this->owner->VimeoID,
+            'SurveyMonkey' => $this->owner->SurveyMonkeyID,
         ])));
     }
 
@@ -668,5 +689,26 @@ class oEmbeddableFields extends DataExtension
         return null;
     }
 
+    /**
+     * @return string
+     */
+    function getSurveyMonkeySource()
+    {
+        if (!$this->owner->SurveyMonkeyID) {
+            return '';
+        }
+        return "https://www.surveymonkey.com/r/" . $this->owner->SurveyMonkeyID;
+    }
+
+    /**
+     * @return string
+     */
+    function getSurveyMonkeyEmbed()
+    {
+        if (!$this->owner->SurveyMonkeyID) {
+            return '';
+        }
+        return "<iframe id='SurveyMonkey-{$this->owner->SurveyMonkeyID}' src='{$this->owner->SurveyMonkeySource}' frameborder='0' allowfullscreen='1'></iframe>";
+    }
 
 }
