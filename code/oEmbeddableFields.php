@@ -43,6 +43,9 @@ class oEmbeddableFields extends DataExtension
      */
     private static $indexes = [];
 
+    private static $summary_fields = [
+        'EmbedList' => 'List of Embeds',
+    ];
 
     /**
      * @param bool $type
@@ -262,6 +265,21 @@ class oEmbeddableFields extends DataExtension
                 $this->owner->VimeoID,
             ]
         ));
+    }
+
+    /**
+     * @return string
+     */
+    function getEmbedList()
+    {
+        return implode(', ', array_keys(array_filter([
+            'Slideshare'   => $this->owner->SlideshareID,
+            'Mixcloud'     => $this->owner->MixcloudURL,
+            'YouTube'      => $this->owner->YouTubeID,
+            'Vidyard'      => $this->owner->VidyardID,
+            'SurveyMonkey' => $this->owner->SurveyMonkeyID,
+            'Brainshark'   => $this->owner->BrainsharkID,
+        ])));
     }
 
     /**
