@@ -205,7 +205,7 @@ class oEmbeddableFields extends DataExtension
     function setSlideshareID($ID)
     {
         if (!is_numeric($ID)) {
-            $ID = oEmbeddableFields::SlideshareID(trim($ID));
+            $ID = oEmbeddableFields::convert_to_id_slideshare(trim($ID));
         }
         $this->owner->setField('SlideshareID', $ID);
     }
@@ -224,7 +224,7 @@ class oEmbeddableFields extends DataExtension
      */
     function setYouTubeID($ID)
     {
-        $this->owner->setField('YouTubeID', oEmbeddableFields::YouTubeID(trim($ID)));
+        $this->owner->setField('YouTubeID', oEmbeddableFields::convert_to_id_youtube(trim($ID)));
     }
 
 
@@ -233,7 +233,7 @@ class oEmbeddableFields extends DataExtension
      */
     function setVimeoID($ID)
     {
-        $this->owner->setField('VimeoID', json_decode(oEmbeddableFields::VimeoID(trim($ID))));
+        $this->owner->setField('VimeoID', json_decode(oEmbeddableFields::convert_to_id_vimeo(trim($ID))));
     }
 
 
@@ -242,7 +242,7 @@ class oEmbeddableFields extends DataExtension
      */
     function setVidyardID($ID)
     {
-        $this->owner->setField('VidyardID', oEmbeddableFields::VidyardID(trim($ID)));
+        $this->owner->setField('VidyardID', oEmbeddableFields::convert_to_id_vidyard(trim($ID)));
     }
 
     /**
@@ -250,7 +250,7 @@ class oEmbeddableFields extends DataExtension
      */
     function setBrainsharkID($ID)
     {
-        $this->owner->setField('BrainsharkID', oEmbeddableFields::BrainsharkID(trim($ID)));
+        $this->owner->setField('BrainsharkID', oEmbeddableFields::convert_to_id_brainshark(trim($ID)));
     }
 
     /**
@@ -466,15 +466,39 @@ class oEmbeddableFields extends DataExtension
     function getWistiaEmbed()
     {
         if ($this->owner->WistiaIdentifier) {
-            return json_decode($this->WistiaIdentifier($this->owner->WistiaIdentifier))->html;
+            return json_decode($this->convert_to_id_wistia($this->owner->WistiaIdentifier))->html;
         }
     }
 
     /**
+     * @return string
+     */
+    function getSurveyMonkeySource()
+    {
+        if (!$this->owner->SurveyMonkeyID) {
+            return '';
+        }
+        return "https://www.surveymonkey.com/r/" . $this->owner->SurveyMonkeyID;
+    }
+
+    /**
+     * @return string
+     */
+    function getSurveyMonkeyEmbed()
+    {
+        if (!$this->owner->SurveyMonkeyID) {
+            return '';
+        }
+        return "<iframe id='SurveyMonkey-{$this->owner->SurveyMonkeyID}' src='{$this->owner->SurveyMonkeySource}' frameborder='0' allowfullscreen='1'></iframe>";
+    }
+
+    /**
+     *
      * STATIC HELPERS
+     *
      */
 
-    public static function SlideshareID($URL)
+    public static function convert_to_id_slideshare($URL)
     {
         $json = @file_get_contents('http://www.slideshare.net/api/oembed/2?format=json&url=' . rawurlencode($URL));
         if (!$json) {
@@ -494,7 +518,7 @@ class oEmbeddableFields extends DataExtension
      *
      * @return bool|mixed|null
      */
-    public function VimeoID($URL)
+    public static function convert_to_id_vimeo($URL)
     {
 
         //make sure they remembered to include the http, if it's a URL
@@ -535,7 +559,7 @@ class oEmbeddableFields extends DataExtension
      *
      * @return bool|null|string
      */
-    public function WistiaIdentifier($ID)
+    public static function convert_to_id_wistia($ID)
     {
 
         $link = 'http://home.wistia.com/medias/' . rawurlencode($ID);
@@ -563,7 +587,7 @@ class oEmbeddableFields extends DataExtension
      *
      * @return mixed|null
      */
-    public function YouTubeID($URL)
+    public static function convert_to_id_youtube($URL)
     {
         //TODO: Enable playlist embeds?
 
@@ -621,7 +645,7 @@ class oEmbeddableFields extends DataExtension
      *
      * @return mixed|null|string
      */
-    public static function VidyardID($URL)
+    public static function convert_to_id_vidyard($URL)
     {
 
         //make sure they remembered to include the http, if it's a URL
@@ -672,7 +696,7 @@ class oEmbeddableFields extends DataExtension
      *
      * @return null
      */
-    public static function BrainsharkID($URL)
+    public static function convert_to_id_brainshark($URL)
     {
         //make sure they remembered to include the http, if it's a URL
         $http = (strpos($URL, 'http://') === 0 || strpos($URL, 'https://') === 0) ? null : 'http://';
@@ -689,28 +713,6 @@ class oEmbeddableFields extends DataExtension
         }
 
         return null;
-    }
-
-    /**
-     * @return string
-     */
-    function getSurveyMonkeySource()
-    {
-        if (!$this->owner->SurveyMonkeyID) {
-            return '';
-        }
-        return "https://www.surveymonkey.com/r/" . $this->owner->SurveyMonkeyID;
-    }
-
-    /**
-     * @return string
-     */
-    function getSurveyMonkeyEmbed()
-    {
-        if (!$this->owner->SurveyMonkeyID) {
-            return '';
-        }
-        return "<iframe id='SurveyMonkey-{$this->owner->SurveyMonkeyID}' src='{$this->owner->SurveyMonkeySource}' frameborder='0' allowfullscreen='1'></iframe>";
     }
 
 }
