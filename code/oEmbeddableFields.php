@@ -473,7 +473,7 @@ class oEmbeddableFields extends DataExtension
             if (!$json) {
                 return '';
             }
-            $json = json_decode($json);
+            $json = json_decode($json, true);
             if (!$json || !isset($json['html']) || !$json['html']) {
                 return '';
             }
