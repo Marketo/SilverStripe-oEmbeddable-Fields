@@ -43,6 +43,9 @@ class oEmbeddableFields extends DataExtension
      */
     private static $indexes = [];
 
+    /**
+     * @var array
+     */
     private static $summary_fields = [
         'EmbedList' => 'List of Embeds',
     ];
@@ -200,7 +203,7 @@ class oEmbeddableFields extends DataExtension
 
 
     /**
-     * @param $ID string|int A slideshare ID or URL
+     * @param string|int $ID A slideshare ID or URL
      */
     function setSlideshareID($ID)
     {
@@ -211,7 +214,7 @@ class oEmbeddableFields extends DataExtension
     }
 
     /**
-     * @param $URL string
+     * @param string $URL
      */
     function setMixcloudURL($URL)
     {
@@ -220,7 +223,7 @@ class oEmbeddableFields extends DataExtension
 
 
     /**
-     * @param $ID string
+     * @param string $ID
      */
     function setYouTubeID($ID)
     {
@@ -229,7 +232,7 @@ class oEmbeddableFields extends DataExtension
 
 
     /**
-     * @param $ID string
+     * @param string $ID
      */
     function setVimeoID($ID)
     {
@@ -238,7 +241,7 @@ class oEmbeddableFields extends DataExtension
 
 
     /**
-     * @param $ID string
+     * @param string $ID
      */
     function setVidyardID($ID)
     {
@@ -246,7 +249,7 @@ class oEmbeddableFields extends DataExtension
     }
 
     /**
-     * @param $ID string
+     * @param string $ID
      */
     function setBrainsharkID($ID)
     {
@@ -256,7 +259,7 @@ class oEmbeddableFields extends DataExtension
     /**
      * TODO: Validate somehow :)
      *
-     * @param $ID string
+     * @param string $ID
      */
     function setSurveyMonkeyID($ID)
     {
@@ -461,12 +464,20 @@ class oEmbeddableFields extends DataExtension
     }
 
     /**
-     * @return mixed
+     * @return string|mixed
      */
     function getWistiaEmbed()
     {
         if ($this->owner->WistiaIdentifier) {
-            return json_decode($this->convert_to_id_wistia($this->owner->WistiaIdentifier))->html;
+            $json = $this->convert_to_id_wistia($this->owner->WistiaIdentifier);
+            if (!$json) {
+                return '';
+            }
+            $json = json_decode($json);
+            if (!$json || !isset($json['html']) || !$json['html']) {
+                return '';
+            }
+            return $json['html'];
         }
     }
 
@@ -498,6 +509,10 @@ class oEmbeddableFields extends DataExtension
      *
      */
 
+    /**
+     * @param string $URL
+     * @return string|mixed
+     */
     public static function convert_to_id_slideshare($URL)
     {
         $json = @file_get_contents('http://www.slideshare.net/api/oembed/2?format=json&url=' . rawurlencode($URL));
@@ -514,7 +529,7 @@ class oEmbeddableFields extends DataExtension
 
 
     /**
-     * @param $URL
+     * @param string $URL
      *
      * @return bool|mixed|null
      */
@@ -583,7 +598,7 @@ class oEmbeddableFields extends DataExtension
 
 
     /**
-     * @param $URL
+     * @param string $URL
      *
      * @return mixed|null
      */
@@ -641,7 +656,7 @@ class oEmbeddableFields extends DataExtension
     }
 
     /**
-     * @param $URL
+     * @param string $URL
      *
      * @return mixed|null|string
      */
@@ -692,7 +707,7 @@ class oEmbeddableFields extends DataExtension
     }
 
     /**
-     * @param $URL
+     * @param string $URL
      *
      * @return null
      */
