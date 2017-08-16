@@ -87,13 +87,13 @@ class oEmbeddableFields extends DataExtension
         if ($this->TypeEnabled('Slideshare')) {
             $Media['SlideshareID'] = TextField::create(
                 'SlideshareID',
-                '<span style="position:relative;">
-                    <a href="http://Slideshare.com/upload" target="_blank" style="position:absolute;top:1.5em;white-space:nowrap;">Upload Slides</a>
-                </span> Slideshare URL',
+                '<span style="position:relative;">' .
+                '<a href="http://Slideshare.com/upload" target="_blank" style="position:absolute;top:1.5em;white-space:nowrap;">Upload Slides</a>' .
+                '</span>Slideshare URL',
                 $this->owner->SlideshareID ?: null
             );
             $Media['SlideshareID']->setRightTitle(
-                'Include the Slideshare <strong>URL</strong> for slideshows.<br/>' .
+                'Include the Slideshare <strong>URL</strong> or <strong>ID</strong> for slideshows.<br/>' .
                 '<strong>After saving:</strong> If valid, this will automatically convert to the Slideshare ID. If not, it will change to "0".'
             //TO GET IT: <u>Drag</u> this <a href="javascript:alert(typeof slideshare_object == \'object\' ? slideshare_object.presentationId : \'Not on a Slideshare page!\');">[SlideshareID]</a> to your bookmarks, then click the button while viewing a Slideshare page.'
             );
@@ -104,12 +104,11 @@ class oEmbeddableFields extends DataExtension
         if ($this->TypeEnabled('YouTube')) {
             $Media['YouTubeID'] = TextField::create(
                 'YouTubeID',
-                '<span style="position:relative;">
-	                <a href="http://YouTube.com/upload" target="_blank" style="position:absolute;top:1.5em;white-space:nowrap;">Upload Video</a>
-	            </span>
-	            YouTube URL');
+                '<span style="position:relative;">' .
+                '<a href="http://YouTube.com/upload" target="_blank" style="position:absolute;top:1.5em;white-space:nowrap;">Upload Video</a>' .
+                '</span>YouTube URL');
             $Media['YouTubeID']->setRightTitle(
-                'Include the <strong>URL</strong> for the YouTube video<br/>' .
+                'Include the <strong>URL</strong> or <strong>ID</strong> for the YouTube video<br/>' .
                 '<strong>After saving:</strong> If valid, this will automatically convert to the YouTube ID. If not, it will disappear.'
             );
         } else {
@@ -120,7 +119,7 @@ class oEmbeddableFields extends DataExtension
         if ($this->TypeEnabled('Vimeo')) {
             $Media['VimeoID'] = TextField::create('VimeoID', 'Vimeo URL');
             $Media['VimeoID']->setRightTitle(
-                'Include the <strong>URL</strong> for the Vimeo video<br/>' .
+                'Include the <strong>URL</strong> or <strong>ID</strong> for the Vimeo video<br/>' .
                 '<strong>After saving:</strong> If valid, this will automatically convert to the Vimeo ID. If not, it will disappear.'
             );
         } else {
@@ -130,7 +129,7 @@ class oEmbeddableFields extends DataExtension
         if ($this->TypeEnabled('Brainshark')) {
             $Media['BrainsharkID'] = TextField::create('BrainsharkID', 'Brainshark Presentation URL');
             $Media['BrainsharkID']->setRightTitle(
-                'Include the <strong>URL</strong> for the Brainshark presentation<br/>' .
+                'Include the <strong>URL</strong> or <strong>ID</strong> for the Brainshark presentation<br/>' .
                 '<strong>After saving:</strong> If likely valid, this will automatically convert to the Brainshark ID. If not, it will disappear.'
             );
         } else {
@@ -140,12 +139,13 @@ class oEmbeddableFields extends DataExtension
         if ($this->TypeEnabled('Mixcloud')) {
             $Media['MixcloudURL'] = TextField::create(
                 'MixcloudURL',
-                '<span style="position:relative;">
-                       <a href="http://Mixcloud.com/upload" target="_blank" style="position:absolute;top:1.5em;white-space:nowrap;">Upload Audio</a>
-                </span>
-	            Mixcloud URL'
+                '<span style="position:relative;">' .
+                '<a href="http://Mixcloud.com/upload" target="_blank" style="position:absolute;top:1.5em;white-space:nowrap;">Upload Audio</a>' .
+                '</span>Mixcloud URL'
             );
-            $Media['MixcloudURL']->setRightTitle('Include the <strong>URL</strong> for a feed OR individual post.');
+            $Media['MixcloudURL']->setRightTitle(
+                'Include the <strong>URL ONLY</strong> for a feed OR individual post.'
+            );
         } else {
             $Media['MixcloudURL'] = HiddenField::create('MixcloudURL', '');
         }
@@ -153,7 +153,7 @@ class oEmbeddableFields extends DataExtension
         if ($this->TypeEnabled('Vidyard')) {
             $Media['VidyardID'] = TextField::create('VidyardID', 'Vidyard URL');
             $Media['VidyardID']->setRightTitle(
-                'Include the <strong>URL</strong> for the Vidyard video<br/>' .
+                'Include the <strong>URL</strong> or <strong>ID</strong> for the Vidyard video<br/>' .
                 '<strong>After saving:</strong> If valid, this will automatically convert to the Vidyard ID. If not, it will disappear.'
             );
         } else {
@@ -163,11 +163,14 @@ class oEmbeddableFields extends DataExtension
         if ($this->TypeEnabled('Wistia')) {
             $Media['WistiaIdentifier'] = TextField::create(
                 'WistiaIdentifier',
-                '<span style="position:relative;">
-				<a href="http://wistia.com/" target="_blank" style="position:absolute;top:1.5em;white-space:nowrap;">Upload Video</a>
-			</span> Wistia ID'
+                '<span style="position:relative;">' .
+                '<a href="http://wistia.com/" target="_blank" style="position:absolute;top:1.5em;white-space:nowrap;">Upload Video</a>' .
+                '</span>Wistia URL'
             );
-            $Media['WistiaIdentifier']->setRightTitle('Include the <strong>ID</strong> for the Wistia video');
+            $Media['WistiaIdentifier']->setRightTitle(
+                'Include the <strong>URL</strong> or <strong>ID</strong> for the Wistia video<br/>' .
+                '<strong>After saving:</strong> If valid, this will automatically convert to the Wistia ID. If not, it will disappear.'
+            );
         } else {
             $Media['WistiaIdentifier'] = HiddenField::create('WistiaIdentifier', '');
         }
@@ -186,7 +189,7 @@ class oEmbeddableFields extends DataExtension
             if ($Title = $this->owner->config()->oembed_title) {
                 $fields->fieldByName($TabName)->setTitle($Title);
             }
-        } else if ($this->owner instanceof SiteTree) {
+        } elseif ($this->owner instanceof SiteTree) {
             $MediaFields = new ToggleCompositeField('MediaFields', $this->owner->config()->oembed_title ?: 'Embedded Media', $Media);
             $MediaFields->setStartClosed(true);
             $MediaFields->setHeadingLevel(2);
@@ -205,7 +208,7 @@ class oEmbeddableFields extends DataExtension
     /**
      * @param string|int $ID A slideshare ID or URL
      */
-    function setSlideshareID($ID)
+    public function setSlideshareID($ID)
     {
         if (!is_numeric($ID)) {
             $ID = oEmbeddableFields::convert_to_id_slideshare(trim($ID));
@@ -216,7 +219,7 @@ class oEmbeddableFields extends DataExtension
     /**
      * @param string $URL
      */
-    function setMixcloudURL($URL)
+    public function setMixcloudURL($URL)
     {
         $this->owner->setField('MixcloudURL', trim($URL));
     }
@@ -225,7 +228,7 @@ class oEmbeddableFields extends DataExtension
     /**
      * @param string $ID
      */
-    function setYouTubeID($ID)
+    public function setYouTubeID($ID)
     {
         $this->owner->setField('YouTubeID', oEmbeddableFields::convert_to_id_youtube(trim($ID)));
     }
@@ -234,7 +237,7 @@ class oEmbeddableFields extends DataExtension
     /**
      * @param string $ID
      */
-    function setVimeoID($ID)
+    public function setVimeoID($ID)
     {
         $this->owner->setField('VimeoID', json_decode(oEmbeddableFields::convert_to_id_vimeo(trim($ID))));
     }
@@ -243,7 +246,7 @@ class oEmbeddableFields extends DataExtension
     /**
      * @param string $ID
      */
-    function setVidyardID($ID)
+    public function setVidyardID($ID)
     {
         $this->owner->setField('VidyardID', oEmbeddableFields::convert_to_id_vidyard(trim($ID)));
     }
@@ -251,7 +254,15 @@ class oEmbeddableFields extends DataExtension
     /**
      * @param string $ID
      */
-    function setBrainsharkID($ID)
+    public function setWistiaIdentifier($ID)
+    {
+        $this->owner->setField('WistiaIdentifier', oEmbeddableFields::convert_to_id_wistia(trim($ID)));
+    }
+
+    /**
+     * @param string $ID
+     */
+    public function setBrainsharkID($ID)
     {
         $this->owner->setField('BrainsharkID', oEmbeddableFields::convert_to_id_brainshark(trim($ID)));
     }
@@ -261,21 +272,23 @@ class oEmbeddableFields extends DataExtension
      *
      * @param string $ID
      */
-    function setSurveyMonkeyID($ID)
+    public function setSurveyMonkeyID($ID)
     {
         $this->owner->setField('SurveyMonkeyID', trim($ID));
     }
 
 
     /**
-     * GETTERS
+     * HELPERS
      */
 
 
     /**
+     * Count of Valid Embeds
+     *
      * @return int
      */
-    function getEmbedCount()
+    public function getEmbedCount()
     {
         return count(array_filter(
             [
@@ -292,11 +305,13 @@ class oEmbeddableFields extends DataExtension
     }
 
     /**
-     * @return string
+     * List of Valid Embed as IDs
+     *
+     * @return array
      */
-    function getEmbedList()
+    public function getValidEmbeds()
     {
-        return implode(', ', array_keys(array_filter([
+        return array_filter([
             'Slideshare'   => $this->owner->SlideshareID,
             'Mixcloud'     => $this->owner->MixcloudURL,
             'YouTube'      => $this->owner->YouTubeID,
@@ -305,26 +320,113 @@ class oEmbeddableFields extends DataExtension
             'Vimeo'        => $this->owner->VimeoID,
             'Wistia'       => $this->owner->WistiaIdentifier,
             'SurveyMonkey' => $this->owner->SurveyMonkeyID,
-        ])));
+        ]);
     }
 
     /**
+     * List of Validated Embed Types
+     *
      * @return string
      */
-    function getSlideshareSource()
+    public function getEmbedList()
+    {
+        return implode(', ', array_keys($this->getValidEmbeds()));
+    }
+
+    /**
+     * List of Valid Embed as URLs
+     *
+     * @return array
+     */
+    public function getValidEmbedSources()
+    {
+        return array_filter([
+            'Slideshare'   => $this->getSlideshareSource(),
+            'Mixcloud'     => $this->getMixcloudSource(),
+            'YouTube'      => $this->getYouTubeSource(),
+            'Vidyard'      => $this->getVidyardSource(),
+            'Brainshark'   => $this->getBrainsharkSource(),
+            'Vimeo'        => $this->getVimeoSource(),
+            'Wistia'       => $this->getWistiaSource(),
+            'SurveyMonkey' => $this->getSurveyMonkeySource(),
+        ]);
+    }
+
+    /**
+     * List of Valid Embed as URLs
+     *
+     * @return string
+     */
+    public function getEmbedSourceList()
+    {
+        return implode(', ', $this->getValidEmbedSources());
+    }
+
+    /**
+     * List of Valid Embeds as Embeds
+     *
+     * @return array
+     */
+    public function getEmbedValues()
+    {
+        return array_filter([
+            'Slideshare'   => $this->getSlideshareEmbed(),
+            'Mixcloud'     => $this->getMixcloudEmbed(),
+            'YouTube'      => $this->getYouTubeEmbed(),
+            'Vidyard'      => $this->getVidyardEmbed(),
+            'Brainshark'   => $this->getBrainsharkEmbed(),
+            'Vimeo'        => $this->getVimeoEmbed(),
+            'Wistia'       => $this->getWistiaEmbed(),
+            'SurveyMonkey' => $this->getSurveyMonkeyEmbed(),
+        ]);
+    }
+
+    /**
+     * List of Valid Embeds as Embeds
+     *
+     * @return ArrayList
+     */
+    public function getEmbeds()
+    {
+        $validEmbeds = $this->getEmbedValues();
+
+        $list = ArrayList::create();
+
+        if ($validEmbeds) {
+            foreach ($validEmbeds as $type => $embed) {
+                $list->push([
+                    'Type'  => $type,
+                    'Embed' => $embed,
+                ]);
+            }
+        }
+
+        return $list;
+    }
+
+
+    /**
+     * GETTERS
+     */
+
+
+    /**
+     * @return string URL
+     */
+    public function getSlideshareSource()
     {
         if (!$this->owner->SlideshareID) {
             return '';
         }
 
-        return "//www.slideshare.net/slideshow/embed_code/" . $this->owner->SlideshareID;
+        return "https://www.slideshare.net/slideshow/embed_code/" . $this->owner->SlideshareID;
     }
 
 
     /**
-     * @return string
+     * @return string HTML iFrame
      */
-    function getSlideshareEmbed()
+    public function getSlideshareEmbed()
     {
         if (!$this->owner->SlideshareID) {
             return '';
@@ -336,7 +438,7 @@ class oEmbeddableFields extends DataExtension
     /**
      * @return string
      */
-    function getMixcloudSlug()
+    public function getMixcloudSlug()
     {
         $parts = explode('/', $this->owner->MixcloudURL);
         end($parts);
@@ -345,22 +447,22 @@ class oEmbeddableFields extends DataExtension
     }
 
     /**
-     * @return string
+     * @return string URL
      */
-    function getMixcloudSource()
+    public function getMixcloudSource()
     {
         if (!$this->owner->MixcloudURL) {
             return '';
         }
         $EncodedURL = rawurlencode($this->owner->MixcloudURL);
 
-        return "//www.mixcloud.com/widget/iframe/?feed=" . $EncodedURL . "&embed_type=widget_standard";
+        return "https://www.mixcloud.com/widget/iframe/?feed=" . $EncodedURL . "&embed_type=widget_standard";
     }
 
     /**
-     * @return string
+     * @return string HTML iFrame
      */
-    function getMixcloudEmbed()
+    public function getMixcloudEmbed()
     {
         if (!$this->owner->MixcloudURL) {
             return '';
@@ -369,11 +471,10 @@ class oEmbeddableFields extends DataExtension
         return "<iframe id='Mixcloud-{$this->owner->MixcloudSlug}' src='{$this->owner->MixcloudSource}' frameborder='0'></iframe>";
     }
 
-
     /**
-     * @return string
+     * @return string URL
      */
-    function getYoutubeSource()
+    public function getYoutubeSource()
     {
         if (!$this->owner->YouTubeID) {
             return '';
@@ -383,9 +484,9 @@ class oEmbeddableFields extends DataExtension
     }
 
     /**
-     * @return string
+     * @return string HTML iFrame
      */
-    function getYouTubeEmbed()
+    public function getYouTubeEmbed()
     {
         if (!$this->owner->YouTubeID) {
             return '';
@@ -395,21 +496,31 @@ class oEmbeddableFields extends DataExtension
     }
 
     /**
-     * @return string
+     * @return string URL
      */
-    function getVidyardSource()
+    public function getYouTubeImage()
+    {
+        if ($this->owner->YoutubeID) {
+            return 'https://i.ytimg.com/vi/' . $this->owner->YoutubeID . '/hqdefault.jpg';
+        }
+    }
+
+    /**
+     * @return string URL
+     */
+    public function getVidyardSource()
     {
         if (!$this->owner->VidyardID) {
             return '';
         }
 
-        return "//micro.marketo.com/play.vidyard.com/" . $this->owner->VidyardID . ".html?v=3.1.1&type=inline&preload=none";
+        return "https://micro.marketo.com/play.vidyard.com/" . $this->owner->VidyardID . ".html?v=3.1.1&type=inline&preload=none";
     }
 
     /**
-     * @return string
+     * @return string HTML iFrame
      */
-    function getVidyardEmbed()
+    public function getVidyardEmbed()
     {
         if (!$this->owner->VidyardID) {
             return '';
@@ -420,9 +531,9 @@ class oEmbeddableFields extends DataExtension
 
 
     /**
-     * @return string
+     * @return string URL
      */
-    function getBrainsharkSource()
+    public function getBrainsharkSource()
     {
         if (!$this->owner->BrainsharkID) {
             return '';
@@ -432,9 +543,9 @@ class oEmbeddableFields extends DataExtension
     }
 
     /**
-     * @return string
+     * @return string HTML iFrame
      */
-    function getBrainsharkEmbed()
+    public function getBrainsharkEmbed()
     {
         if (!$this->owner->BrainsharkID) {
             return '';
@@ -444,19 +555,19 @@ class oEmbeddableFields extends DataExtension
     }
 
     /**
-     * @return string
+     * @return string URL
      */
-    function getYouTubeImage()
+    public function getVimeoSource()
     {
-        if ($this->owner->YoutubeID) {
-            return 'https://i.ytimg.com/vi/' . $this->owner->YoutubeID . '/hqdefault.jpg';
+        if ($this->owner->VimeoID) {
+            return 'https://vimeo.com/' . $this->owner->VimeoID;
         }
     }
 
     /**
-     * @return string
+     * @return string HTML iFrame
      */
-    function getVimeoEmbed()
+    public function getVimeoEmbed()
     {
         if ($this->owner->VimeoID) {
             return '<iframe src="https://player.vimeo.com/video/' . $this->owner->VimeoID . '" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
@@ -464,12 +575,22 @@ class oEmbeddableFields extends DataExtension
     }
 
     /**
-     * @return string|mixed
+     * @return string URL
      */
-    function getWistiaEmbed()
+    public function getWistiaSource()
     {
         if ($this->owner->WistiaIdentifier) {
-            $json = $this->convert_to_id_wistia($this->owner->WistiaIdentifier);
+            return 'https://fast.wistia.net/embed/iframe/' . $this->owner->WistiaIdentifier;
+        }
+    }
+
+    /**
+     * @return string|mixed HTML iFrame
+     */
+    public function getWistiaEmbed()
+    {
+        if ($this->owner->WistiaIdentifier) {
+            $json = $this->wistia_json($this->owner->WistiaIdentifier);
             if (!$json) {
                 return '';
             }
@@ -477,29 +598,51 @@ class oEmbeddableFields extends DataExtension
             if (!$json || !isset($json['html']) || !$json['html']) {
                 return '';
             }
+
             return $json['html'];
         }
     }
 
     /**
-     * @return string
+     * @return string|mixed URL
      */
-    function getSurveyMonkeySource()
+    public function getWistiaImage()
+    {
+        if ($this->owner->WistiaIdentifier) {
+            $json = $this->wistia_json($this->owner->WistiaIdentifier);
+            if (!$json) {
+                return '';
+            }
+            $json = json_decode($json, true);
+            if (!$json || !isset($json['thumbnail_url']) || !$json['thumbnail_url']) {
+                return false;
+            }
+
+            return $json['thumbnail_url'];
+        }
+    }
+
+    /**
+     * @return string URL
+     */
+    public function getSurveyMonkeySource()
     {
         if (!$this->owner->SurveyMonkeyID) {
             return '';
         }
+
         return "https://www.surveymonkey.com/r/" . $this->owner->SurveyMonkeyID;
     }
 
     /**
-     * @return string
+     * @return string HTML iFrame
      */
-    function getSurveyMonkeyEmbed()
+    public function getSurveyMonkeyEmbed()
     {
         if (!$this->owner->SurveyMonkeyID) {
             return '';
         }
+
         return "<iframe id='SurveyMonkey-{$this->owner->SurveyMonkeyID}' src='{$this->owner->SurveyMonkeySource}' frameborder='0' allowfullscreen='1'></iframe>";
     }
 
@@ -510,8 +653,22 @@ class oEmbeddableFields extends DataExtension
      */
 
     /**
+     * parse_url with some pre-processing
+     *
+     * @param $URL
+     * @return mixed
+     */
+    private static function parseUrl($URL)
+    {
+        //make sure they remembered to include the http, if it's a URL
+        $http = (strpos($URL, 'http://') === 0 || strpos($URL, 'https://') === 0) ? null : 'http://';
+
+        return parse_url($http . $URL);
+    }
+
+    /**
      * @param string $URL
-     * @return string|mixed
+     * @return mixed|null|string ID
      */
     public static function convert_to_id_slideshare($URL)
     {
@@ -531,14 +688,12 @@ class oEmbeddableFields extends DataExtension
     /**
      * @param string $URL
      *
-     * @return bool|mixed|null
+     * @return bool|mixed|null ID
      */
     public static function convert_to_id_vimeo($URL)
     {
-
-        //make sure they remembered to include the http, if it's a URL
-        $http = (strpos($URL, 'http://') === 0 || strpos($URL, 'https://') === 0) ? null : 'http://';
-        if ($parse = parse_url($http . $URL)) {
+        $parse = oEmbeddableFields::parseUrl($URL);
+        if ($parse) {
             //If the path doesn't exist, then it's likely that it's already the ID
             if (!isset($parse['path']) && count($parse) === 2) {
                 $ID = $parse['host'];
@@ -570,13 +725,40 @@ class oEmbeddableFields extends DataExtension
     }
 
     /**
+     * @param $URL
+     *
+     * @return mixed|null|string ID
+     */
+    public static function convert_to_id_wistia($URL)
+    {
+        $parse = oEmbeddableFields::parseUrl($URL);
+        if ($parse) {
+            //If the path doesn't exist, then it's likely that it's already the ID
+            if (!isset($parse['path']) && count($parse) === 2) {
+                $ID = $parse['host'];
+            } else {
+                //Handle Wistia video page URLs
+                parse_str($parse['query'], $url_GET);
+                if (isset($url_GET['wvideo'])) {
+                    $ID = $url_GET['wvideo'];
+                } else {
+                    return null;
+                }
+            }
+        } else {
+            return null;
+        }
+
+        return $ID;
+    }
+
+    /**
      * @param $ID
      *
-     * @return bool|null|string
+     * @return bool|null|string JSON
      */
-    public static function convert_to_id_wistia($ID)
+    private static function wistia_json($ID)
     {
-
         $link = 'http://home.wistia.com/medias/' . rawurlencode($ID);
 
         $oembed_regex = '#https?://(.+)?(wistia\.com|wistia\.net|wi\.st)/(medias|embed)/(?:[\+~%\/\.\w\-]*)#';
@@ -600,15 +782,14 @@ class oEmbeddableFields extends DataExtension
     /**
      * @param string $URL
      *
-     * @return mixed|null
+     * @return mixed|null|string ID
      */
     public static function convert_to_id_youtube($URL)
     {
         //TODO: Enable playlist embeds?
 
-        //make sure they remembered to include the http, if it's a URL
-        $http = (strpos($URL, 'http://') === 0 || strpos($URL, 'https://') === 0) ? null : 'http://';
-        if ($parse = parse_url($http . $URL)) {
+        $parse = oEmbeddableFields::parseUrl($URL);
+        if ($parse) {
             //If the path doesn't exist, then it's likely that it's already the ID
             if (!isset($parse['path']) && count($parse) === 2) {
                 $ID = $parse['host'];
@@ -617,7 +798,7 @@ class oEmbeddableFields extends DataExtension
                     //Handle youtu.be URLs
                     $ID = str_replace('/', '', $parse['path']);
 
-                } else if (strpos($parse['path'], '/embed/') === 0) {
+                } elseif (strpos($parse['path'], '/embed/') === 0) {
                     //Handle youtube embed URLs
                     $ID = str_replace('/embed/', '', $parse['path']);
 
@@ -658,14 +839,12 @@ class oEmbeddableFields extends DataExtension
     /**
      * @param string $URL
      *
-     * @return mixed|null|string
+     * @return mixed|null|string ID
      */
     public static function convert_to_id_vidyard($URL)
     {
-
-        //make sure they remembered to include the http, if it's a URL
-        $http = (strpos($URL, 'http://') === 0 || strpos($URL, 'https://') === 0) ? null : 'http://';
-        if ($parse = parse_url($http . $URL)) {
+        $parse = oEmbeddableFields::parseUrl($URL);
+        if ($parse) {
 
             //If the path doesn't exist, then it's likely that it's already the ID
             if (!isset($parse['path']) && count($parse) === 2) {
@@ -709,13 +888,12 @@ class oEmbeddableFields extends DataExtension
     /**
      * @param string $URL
      *
-     * @return null
+     * @return mixed|null|string ID
      */
     public static function convert_to_id_brainshark($URL)
     {
-        //make sure they remembered to include the http, if it's a URL
-        $http = (strpos($URL, 'http://') === 0 || strpos($URL, 'https://') === 0) ? null : 'http://';
-        if ($parse = parse_url($http . $URL)) {
+        $parse = oEmbeddableFields::parseUrl($URL);
+        if ($parse) {
             //If the path doesn't exist, then it's likely that it's already the ID
             if (!isset($parse['path']) && count($parse) === 2) {
                 return $parse['host'];
