@@ -560,7 +560,7 @@ class oEmbeddableFields extends DataExtension
     public function getVimeoSource()
     {
         if ($this->owner->VimeoID) {
-            return 'https://vimeo.com/' . $this->owner->VimeoID;
+            return 'https://player.vimeo.com/video/' . $this->owner->VimeoID;
         }
     }
 
@@ -570,7 +570,7 @@ class oEmbeddableFields extends DataExtension
     public function getVimeoEmbed()
     {
         if ($this->owner->VimeoID) {
-            return '<iframe src="https://player.vimeo.com/video/' . $this->owner->VimeoID . '" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
+            return '<iframe src="' . $this->owner->VimeoSource . '" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
         }
     }
 
