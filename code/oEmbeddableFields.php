@@ -514,7 +514,7 @@ class oEmbeddableFields extends DataExtension
             return '';
         }
 
-        return "https://micro.marketo.com/play.vidyard.com/" . $this->owner->VidyardID . ".html?v=3.1.1&type=inline&preload=none";
+        return "//play.vidyard.com/" . $this->owner->VidyardID . ".js?v=3.1.1&type=inline&preload=none";
     }
 
     /**
@@ -526,7 +526,7 @@ class oEmbeddableFields extends DataExtension
             return '';
         }
 
-        return "<iframe id='Vidyard-{$this->owner->VidyardID}' src='{$this->owner->VidyardSource}' frameborder='0' allowfullscreen='1'></iframe>";
+        return "<script type='text/javascript' id='Vidyard-{$this->owner->VidyardID}' src='{$this->owner->VidyardSource}'></script>";
     }
 
 
