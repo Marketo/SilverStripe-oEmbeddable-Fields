@@ -514,7 +514,7 @@ class oEmbeddableFields extends DataExtension
             return '';
         }
 
-        return "//play.vidyard.com/" . $this->owner->VidyardID . ".js?v=3.1.1&type=inline&preload=none";
+        return "//play.vidyard.com/" . $this->owner->VidyardID . ".html?v=3.1.1&type=inline&preload=none";
     }
 
     /**
@@ -526,7 +526,7 @@ class oEmbeddableFields extends DataExtension
             return '';
         }
 
-        return "<script type='text/javascript' id='Vidyard-{$this->owner->VidyardID}' src='{$this->owner->VidyardSource}'></script>";
+        return "<script type='text/javascript' id='Vidyard-{$this->owner->VidyardID}' src='//play.vidyard.com/{$this->owner->VidyardID}.js?v=3.1.1&type=inline&preload=none'></script>";
     }
 
 
